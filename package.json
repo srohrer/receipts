@@ -6,21 +6,40 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "gen:samples": "tsx scripts/gen-samples.ts",
+    "record:demos": "tsx scripts/record-demos.ts",
+    "mock:deepseek": "cross-env MOCK_FLAKY=1 tsx scripts/mock-deepseek.ts",
+    "dev:mock": "cross-env DEEPSEEK_BASE_URL=http://localhost:3999 DEEPSEEK_API_KEY=mock next dev"
   },
   "dependencies": {
+    "@tanstack/react-virtual": "^3.14.13",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.48.0",
     "next": "16.3.7",
+    "papaparse": "^5.7.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "recharts": "^3.10.1",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.5",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/papaparse": "^5.5.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.7",
     "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^4.1.11"
+  },
+  "description": "Data analysis where every claim is checked: an LLM plans and narrates, a deterministic engine executes and verifies."
 }

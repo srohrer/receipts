@@ -1,26 +1,114 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --panel-2: #f1f3f6;
+  --border: #e3e6eb;
+  --text: #14171c;
+  --muted: #5f6877;
+  --faint: #9aa2af;
+  --brand: #4f6bff;
+  --brand-soft: #4f6bff1a;
+  --ok: #0f9d6b;
+  --ok-soft: #0f9d6b1a;
+  --bad: #dc3b3b;
+  --bad-soft: #dc3b3b1a;
+  --warn: #c98200;
+  --warn-soft: #c982001f;
+  --grid: #e8ebef;
+}
+
+.dark {
+  --bg: #0a0c0f;
+  --panel: #111419;
+  --panel-2: #171b21;
+  --border: #232830;
+  --text: #e7e9ec;
+  --muted: #9199a6;
+  --faint: #5d6572;
+  --brand: #7c93ff;
+  --brand-soft: #7c93ff1f;
+  --ok: #34d399;
+  --ok-soft: #34d3991a;
+  --bad: #f87171;
+  --bad-soft: #f871711f;
+  --warn: #fbbf24;
+  --warn-soft: #fbbf241a;
+  --grid: #1c2027;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+::selection {
+  background: var(--brand-soft);
+}
+
+@keyframes flash {
+  0% {
+    background: var(--brand-soft);
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+.flash {
+  animation: flash 1.4s ease-out;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, var(--brand-soft), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+.receipt-edge {
+  mask: radial-gradient(circle at 6px 0, transparent 4px, #000 4.5px) 0 0 / 12px 100% repeat-x;
 }
