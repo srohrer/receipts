@@ -78,6 +78,7 @@ Check types:
 - { "type": "count", "query": "query_id", "where": { ... } | null, "expected": 12 }
 
 Rules:
+- One fact per marker. A marker may contain at most one number, and that number must be the one its check verifies. "741 customers, up from 442, a 68% increase" is three markers with three claims, not one. If you can't write a check for a number, leave the number out.
 - "expected" must be the number exactly as written in the text, in the same units (a displayed "$1.2M" is 1200000; "14%" is 14). The verifier grades with rounding semantics at the precision you write, so write numbers the way you'd display them.
 - Only reference queries and columns that exist in the results. Use dimension values exactly as they appear.
 - Do not invent context that is not in the data (causes, external events). Hedge interpretations and keep them out of claim markers.
