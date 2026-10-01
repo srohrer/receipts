@@ -131,3 +131,11 @@ describe("engine", () => {
     expect(sql).toContain("LIMIT 5");
   });
 });
+
+describe("headers", () => {
+  it("trims whitespace around header names", () => {
+    const d = buildDataset([{ " name ": "a", "qty ": "1" }], { id: "h", name: "h", source: "upload" });
+    expect(d.columns.map((c) => c.name)).toEqual(["name", "qty"]);
+    expect(d.rows[0]).toEqual({ name: "a", qty: 1 });
+  });
+});

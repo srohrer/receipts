@@ -114,14 +114,19 @@ export function buildDataset(
   records: Record<string, string>[],
   meta: { id: string; name: string; source: Dataset["source"]; description?: string },
 ): Dataset {
-  const names = Object.keys(records[0] ?? {}).filter((n) => n.trim() !== "");
+  // Headers are trimmed here rather than via Papa's transformHeader: functions can't be
+  // posted to the parsing Web Worker.
+  const headers = Object.keys(records[0] ?? {})
+    .map((raw) => ({ raw, name: raw.trim() }))
+    .filter((h) => h.name !== "");
+  const names = headers.map((h) => h.name);
   const types = Object.fromEntries(
-    names.map((n) => [n, inferType(records.slice(0, 2000).map((r) => r[n] ?? ""))]),
+    headers.map((h) => [h.name, inferType(records.slice(0, 2000).map((r) => r[h.raw] ?? ""))]),
   ) as Record<string, ColumnType>;
 
   const rows: Row[] = records.map((rec) => {
     const row: Row = {};
-    for (const n of names) row[n] = coerce(rec[n] ?? "", types[n]);
+    for (const h of headers) row[h.name] = coerce(rec[h.raw] ?? "", types[h.name]);
     return row;
   });
 
@@ -135,7 +140,6 @@ export function parseCsvText(
   const result = Papa.parse<Record<string, string>>(text, {
     header: true,
     skipEmptyLines: "greedy",
-    transformHeader: (h) => h.trim(),
   });
   if (!result.data.length) throw new Error("The CSV has no data rows.");
   return buildDataset(result.data, meta);
@@ -147,7 +151,6 @@ export function parseCsvFile(file: File): Promise<Dataset> {
       header: true,
       skipEmptyLines: "greedy",
       worker: true,
-      transformHeader: (h) => h.trim(),
       complete: (result) => {
         if (!result.data.length) return reject(new Error("The CSV has no data rows."));
         const name = file.name.replace(/\.csv$/i, "");
