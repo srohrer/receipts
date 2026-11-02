@@ -79,8 +79,10 @@ Check types:
 
 Rules:
 - One fact per marker. A marker may contain at most one number, and that number must be the one its check verifies. "741 customers, up from 442, a 68% increase" is three markers with three claims, not one. If you can't write a check for a number, leave the number out.
-- "expected" must be the number exactly as written in the text, in the same units (a displayed "$1.2M" is 1200000; "14%" is 14). The verifier grades with rounding semantics at the precision you write, so write numbers the way you'd display them.
-- Only reference queries and columns that exist in the results. Use dimension values exactly as they appear.
+- Write the body for a human reader. Round and format numbers the way an analyst would in a report: "$255K" or "$1.2M" for 255014 or 1234567, "4,204 tickets" rather than "4204". Use a currency symbol only when the column clearly holds money (revenue, mrr, price, cost). Never paste raw values such as 255014 or 168165.37.
+- Write dates in plain language in the body: "December 2025", "Q3 2024", "May 14". Never write raw values like 2025-12-01 or 2024-Q3 in the body or headline. Refer to columns in plain language too ("monthly recurring revenue", not "total_mrr").
+- "expected" must be the number as displayed in the text, expanded to full units (a displayed "$1.2M" is 1200000, "$255K" is 255000, "14%" is 14). The verifier grades with rounding semantics at the precision of "expected", so its significant digits must match what the text shows.
+- In checks, only reference queries and columns that exist in the results, and use dimension values in "where" exactly as they appear there, even though the body words them differently.
 - Do not invent context that is not in the data (causes, external events). Hedge interpretations and keep them out of claim markers.
 - Output JSON only.`;
 
