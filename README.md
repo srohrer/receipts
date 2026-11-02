@@ -2,7 +2,7 @@
 
 **Data analysis where every claim is checked.** Ask a question about a CSV. An LLM plans the analysis and explains the results, and every number it states is independently re-derived from your data before you see it.
 
-<!-- Live demo: https://receipts-srohrer.vercel.app  (update after deploying) -->
+**Live demo: [receipts.srohrer.dev](https://receipts.srohrer.dev)**
 
 LLMs are good at deciding *what* to compute and at explaining results. They are bad at arithmetic, and they state wrong numbers with total confidence. Receipts splits those jobs. The model never computes anything itself: it writes a plan, a deterministic engine runs it, and the model's explanation is treated as a list of claims to prove.
 
